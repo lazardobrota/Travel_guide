@@ -1,4 +1,4 @@
-package com.example.backend.entities;
+package com.example.backend.entities.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +17,9 @@ public class UserType {
     @NotNull(message = "Role field can't be null")
     @NotEmpty(message = "Role field can't be empty")
     private String role;
+
+    public UserType(int id, String role) {
+        this.id = id;
+        this.role = role;
+    }
 }

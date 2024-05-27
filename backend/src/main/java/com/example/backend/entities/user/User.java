@@ -40,10 +40,6 @@ public class User {
     @NotEmpty(message = "Lastname field can't be empty")
     private String lastname;
 
-    private List<Comment> comments;
-
-    private List<Article> articles;
-
     private String role; //same as userTypeId only so it can return actual name of role and not id
 
     public User(int id, String email, int userTypeId, boolean active, String name, String lastname, String role) {
@@ -56,7 +52,7 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String email, int userTypeId, boolean active, String password, String name, String lastname, List<Comment> comments, List<Article> articles) {
+    public User(int id, String email, int userTypeId, boolean active, String password, String name, String lastname, String role) {
         this.id = id;
         this.email = email;
         this.userTypeId = userTypeId;
@@ -64,7 +60,6 @@ public class User {
         this.password = password;
         this.name = name;
         this.lastname = lastname;
-        this.comments = comments;
-        this.articles = articles;
+        this.role = role;
     }
 }

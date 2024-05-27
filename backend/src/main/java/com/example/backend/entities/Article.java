@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,4 +36,8 @@ public class Article {
 
     @NotNull(message = "Text field can't be null")
     private LocalDate createdAt;
+
+    private List<Comment> comments;
+
+    private List<Activity> activities;
 }

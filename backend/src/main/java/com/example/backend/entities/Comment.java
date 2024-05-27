@@ -22,6 +22,6 @@ public class Comment {
     @NotNull(message = "CreatedAt field can't be null")
     private LocalDate createAt; //todo add converter
 
-    @NotNull(message = "UserId field can't be null")
-    private int userId;
+    @NotNull(message = "ArticleId field can't be null")
+    private int articleId;
 }

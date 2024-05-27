@@ -27,6 +27,12 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public User updateUser(@Valid User user) {
+        return userService.updateUser(user);
+    }
+
     @POST
     @Path("/type")
     @Produces(MediaType.APPLICATION_JSON)
@@ -39,5 +45,11 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     public UserType getUserType(@PathParam("id") int id) {
         return userService.getUserTypeById(id);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteUser(@PathParam("id") int id) {
+        userService.deleteUser(id);
     }
 }

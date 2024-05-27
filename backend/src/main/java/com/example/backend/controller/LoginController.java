@@ -32,7 +32,7 @@ public class LoginController {
         User user = userService.getUserByEmail(userLogin.getEmail());
         response.put("jwt", jwt);
         response.put("name", user.getName());
-        response.put("role", String.valueOf(user.getUserTypeId()));
+        response.put("role", user.getRole());
 
         return Response.ok(response).build();
     }

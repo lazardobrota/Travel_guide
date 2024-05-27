@@ -18,8 +18,9 @@ public class Article {
     @NotNull(message = "DestinationId field can't be null")
     private int destinationId;
 
-    @NotNull(message = "AuthorId field can't be null")
-    private int authorId;
+    @NotNull(message = "Author field can't be null")
+    @NotEmpty(message = "Author field can't be empty")
+    private String author;
 
     @NotNull(message = "Title field can't be null")
     @NotEmpty(message = "Title field can't be empty")

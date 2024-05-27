@@ -1,8 +1,10 @@
 package com.example.backend.repo.impl;
 
 import com.example.backend.entities.user.User;
+import com.example.backend.filters.Pass;
 import com.example.backend.repo.IUserRepository;
 import com.example.backend.repo.MySqlRepo;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -45,7 +47,7 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public User getUserByEmail(String email, boolean takePassword) {
         User user = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -53,7 +55,7 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
 
         try {
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM user where email like ?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM user join usertype on user.userTypeId = usertype.id where email = ?");
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
 
@@ -68,6 +70,9 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
                         resultSet.getString("lastname"),
                         resultSet.getString("role")
                 );
+
+                if (takePassword)
+                    user.setPassword(resultSet.getString("password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +97,7 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setInt(2, user.getUserTypeId());
             preparedStatement.setBoolean(3, user.isActive());
-            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(4, Pass.hashPassword(user.getPassword()));
             preparedStatement.setString(5, user.getName());
             preparedStatement.setString(6, user.getLastname());
             preparedStatement.executeUpdate();
@@ -107,6 +112,51 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             this.closeConnection(connection);
             this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
+        }
+
+        return user;
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("DELETE FROM user WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(preparedStatement);
+        }
+    }
+
+    @Override
+    public User updateUser(User user) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("update user " +
+                    "set email = ?, userTypeId = ?, active = ?, password = ?, name = ?, lastname = ? where id = ?");
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setInt(2, user.getUserTypeId());
+            preparedStatement.setBoolean(3, user.isActive());
+            preparedStatement.setString(4, Pass.hashPassword(user.getPassword()));
+            preparedStatement.setString(5, user.getName());
+            preparedStatement.setString(6, user.getLastname());
+            preparedStatement.setInt(7, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(preparedStatement);
         }
 
         return user;

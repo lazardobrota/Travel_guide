@@ -9,12 +9,12 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityDestination {
+public class ActivityArticle {
 
     private int id;
 
-    @NotNull(message = "DestinationId field can't be null")
-    private int destinationId;
+    @NotNull(message = "ArticleId field can't be null")
+    private int articleId;
 
     @NotNull(message = "ActivityId field can't be null")
     private int activityId;

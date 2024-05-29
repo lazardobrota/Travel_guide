@@ -48,6 +48,13 @@ public class UserController {
     }
 
     @GET
+    @Path("/type")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUserType() {
+        return Response.ok(userService.getAllUserTypes()).build();
+    }
+
+    @GET
     @Path("/type/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public UserType getUserType(@PathParam("id") int id) {

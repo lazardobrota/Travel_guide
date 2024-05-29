@@ -1,5 +1,6 @@
 package com.example.backend.repo.impl;
 
+import com.example.backend.entities.user.User;
 import com.example.backend.entities.user.UserType;
 import com.example.backend.repo.IUserTypeRepository;
 import com.example.backend.repo.MySqlRepo;
@@ -64,5 +65,33 @@ public class UserTypeRepository extends MySqlRepo implements IUserTypeRepository
         }
 
         return userType;
+    }
+
+    @Override
+    public List<UserType> getAllUserTypes() {
+        List<UserType> userTypes = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from usertype");
+
+            while (resultSet.next()) {
+                userTypes.add(new UserType(
+                   resultSet.getInt("id"),
+                   resultSet.getString("role")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(statement);
+            this.closeResultSet(resultSet);
+        }
+        return userTypes;
     }
 }

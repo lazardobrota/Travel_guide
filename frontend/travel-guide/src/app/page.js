@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import UserTable from "./userTable/page";
+import UserTable from "./users/page";
+import Link from "next/link";
 
 export default function Home() {
   /*
@@ -97,6 +98,14 @@ export default function Home() {
   */
 
   return (
-    <UserTable></UserTable>
+    //TODO Ovde ce birati da li zeli kao Zaposleni(Admin) ili kao obican korisnik
+    <ul>
+      <li>
+        <Link href="/">Home</Link>
+      </li>
+      <li>
+        <Link href="/users">Users</Link>
+      </li>
+    </ul>
   )
 }

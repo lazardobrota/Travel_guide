@@ -28,7 +28,7 @@
 }
 
 .tableRowItems {
-  cursor: auto;
+  cursor: pointer;
 }
 
 .tableRowItems:nth-child(odd) {

@@ -1,6 +1,7 @@
 import { useEffect } from "react"
+import "./tableFooter.css"
 
-const TableFooter = ({range, setPage, page, slice}) => {
+const TableFooter = ({ range, setPage, page, slice }) => {
   useEffect(() => {
     if (slice.length < 1 && page !== 1)
       setPage(page - 1)
@@ -10,13 +11,15 @@ const TableFooter = ({range, setPage, page, slice}) => {
   return (
     <div>
       {range.map((elem, index) => {
-        <button
-          key={index}
-          //className={page === elem ? styles.activeButton : styles.inactiveButton}
-          onClick={() => setPage(elem)}
-        >
-          {elem}
-        </button>
+        return (
+          <button
+            key={index}
+            className={page === elem ? 'activeButton' : 'inactiveButton'}
+            onClick={() => setPage(elem)}
+          >
+            {elem}
+          </button>
+        )
       })}
     </div>
   )

@@ -143,14 +143,13 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
         try{
             connection = this.newConnection();
             preparedStatement = connection.prepareStatement("update user " +
-                    "set email = ?, userTypeId = ?, active = ?, password = ?, name = ?, lastname = ? where id = ?");
+                    "set email = ?, userTypeId = ?, active = ?,  name = ?, lastname = ? where id = ?");
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setInt(2, user.getUserTypeId());
             preparedStatement.setBoolean(3, user.isActive());
-            preparedStatement.setString(4, Pass.hashPassword(user.getPassword()));
-            preparedStatement.setString(5, user.getName());
-            preparedStatement.setString(6, user.getLastname());
-            preparedStatement.setInt(7, user.getId());
+            preparedStatement.setString(4, user.getName());
+            preparedStatement.setString(5, user.getLastname());
+            preparedStatement.setInt(6, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,6 +158,41 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             this.closeStatement(preparedStatement);
         }
 
+        return user;
+    }
+
+    @Override
+    public User getUserById(int id) {
+        User user = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM user join usertype on user.userTypeId = usertype.id where user.id = ?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            //TODO this should also return list of all comments of this person
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("email"),
+                        resultSet.getInt("userTypeId"),
+                        resultSet.getBoolean("active"),
+                        resultSet.getString("name"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+        }
         return user;
     }
 

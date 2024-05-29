@@ -21,6 +21,13 @@ public class UserController {
         return Response.ok(userService.getAllUsers()).build();
     }
 
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserById(@PathParam("id") int id) {
+        return userService.getUserById(id);
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public User addUser(@Valid User user) {

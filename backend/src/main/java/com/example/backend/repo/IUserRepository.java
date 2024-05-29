@@ -14,4 +14,6 @@ public interface IUserRepository {
     void deleteUser(int id);
 
     User updateUser(User user);
+
+    User getUserById(int id);
 }

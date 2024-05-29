@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/users/edit/page.tsx", "src/components/Table/Table/TableUser.tsx", "src/app/users/page.tsx", "src/app/users/new/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

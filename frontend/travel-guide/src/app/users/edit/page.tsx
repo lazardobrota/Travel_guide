@@ -26,7 +26,7 @@ export default function EditUser() {
 
 
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>, user: any): void {
+  function handleSubmit(e, user) {
     e.preventDefault();
     fetch(`http://localhost:8081/api/user`, {
       method: 'PUT',
@@ -38,7 +38,7 @@ export default function EditUser() {
         id: user.id,
         email: user.email,
         userTypeId: user.userTypeId,
-        active: !user.active,
+        active: user.active,
         password: "something",
         name: user.name,
         lastname: user.lastname
@@ -48,8 +48,14 @@ export default function EditUser() {
     .catch(error => console.log(error))
   }
 
+  if (user === undefined)
+    return;
+
   return (
     <form onSubmit={e => handleSubmit(e, user)}>
+      <div>
+        <label>Role: {user.role}</label>
+      </div>
       <div>
         <label>Name: </label>
         <input name="name" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} />
@@ -61,8 +67,8 @@ export default function EditUser() {
         <label>Email: </label>
         <input name="email" value={user.email} onChange={e => setUser({ ...user, email: e.target.value })} />
 
-        <label>Type: </label>
-        <input disabled name="type" value={user.type ? 'TRUE' : 'FALSE'} onChange={e => setUser({ ...user, type: e.target.value })} />
+        <label>Active: </label>
+        <input disabled={user.userTypeId === 1 ? true : false} name="type" type="checkbox" defaultChecked={user.active} onChange={e => setUser({ ...user, active: !user.active })} />
       </div>
       <button type="submit">Submit</button>
     </form>

@@ -16,13 +16,13 @@ export default function NewUser() {
   const [userTypes, setUserTypes] = useState(undefined)
   const router = useRouter()
 
-  const jwtCookie = 'TODO'
 
   useEffect(() => {
+
     fetch('http://localhost:8081/api/user/type', {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + jwtCookie
+        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
       }
     })
       .then(res => res.json())

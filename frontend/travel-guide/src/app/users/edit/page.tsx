@@ -9,12 +9,12 @@ export default function EditUser() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
-  const jwtCookie = 'TODO'
+  
   useEffect(() => {
     fetch(`http://localhost:8081/api/user/${id}`, {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer ' + jwtCookie
+        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
       }
     })
       .then(res => res.json())
@@ -24,14 +24,12 @@ export default function EditUser() {
   if (user === undefined)
     return;
 
-
-
   function handleSubmit(e, user) {
     e.preventDefault();
     fetch(`http://localhost:8081/api/user`, {
       method: 'PUT',
       headers: {
-        'Authorization': 'Bearer ' + jwtCookie,
+        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

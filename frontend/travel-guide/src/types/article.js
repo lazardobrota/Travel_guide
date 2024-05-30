@@ -3,6 +3,7 @@ function Article() {
   this.author = ""
   this.title = ""
   this.text = ""
+  this.activityIds = []
 }
 
 export default Article

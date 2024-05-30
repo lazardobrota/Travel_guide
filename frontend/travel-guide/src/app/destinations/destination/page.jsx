@@ -40,7 +40,7 @@ export default function SeeDestination() {
       <p>{destin.description}</p>
       <h3>Articles:</h3>
       <TableArticles data={destin.articles} role={global.role} rowsPerPage={4}/>
-      <button onClick={() => router.push('/articles/new')}>New Article</button>
+      <button onClick={() => router.push(`/articles/new?destinationId=${id}`)}>New Article</button>
     </>
   )
 }

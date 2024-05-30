@@ -72,6 +72,7 @@ export default function NewUser() {
           <input required name="password" value={user.password} onChange={e => setUser({ ...user, password: e.target.value })} />
         </div>
         <div>
+          <label>Role: </label>
           <select defaultValue={2} onChange={(e) => setUser({ ...user, userTypeId: parseInt(e.target.value) })}>
             {userTypes.map((elem) => (
               <option key={elem.id} value={elem.id}>{elem.role}</option>

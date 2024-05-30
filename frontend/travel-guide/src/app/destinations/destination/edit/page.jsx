@@ -67,7 +67,7 @@ export default function EditDestination() {
         </div>
         <div>
           <label>Description: </label>
-          <textarea name="lastname" value={destination.description} onChange={e => setDestin({ ...destination, description: e.target.value })} />
+          <textarea name="description" value={destination.description} onChange={e => setDestin({ ...destination, description: e.target.value })} />
         </div>
         <button type="submit">Submit</button>
       </form>

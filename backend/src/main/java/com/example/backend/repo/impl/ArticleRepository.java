@@ -21,7 +21,7 @@ public class ArticleRepository extends MySqlRepo implements IArticleRepository {
         try {
             connection = this.newConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from article");
+            resultSet = statement.executeQuery("select * from article order by createdAt ASC ");
 
             while (resultSet.next()) {
                 articles.add(new Article(

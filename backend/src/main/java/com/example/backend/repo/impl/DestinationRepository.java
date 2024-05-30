@@ -1,8 +1,8 @@
 package com.example.backend.repo.impl;
 
+import com.example.backend.entities.Article;
 import com.example.backend.entities.Destination;
-import com.example.backend.entities.user.User;
-import com.example.backend.filters.Pass;
+import com.example.backend.filters.Global;
 import com.example.backend.repo.IDestinationRepository;
 import com.example.backend.repo.MySqlRepo;
 
@@ -55,13 +55,28 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
-            //TODO return also list off all articles for this destination
             if (resultSet.next()) {
                 destination = new Destination(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("description")
+                        resultSet.getString("description"),
+                        new ArrayList<>()
                 );
+
+                preparedStatement = connection.prepareStatement("select * from article where destinationId = ?");
+                preparedStatement.setInt(1, id);
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    destination.getArticles().add(new Article(
+                            resultSet.getInt("id"),
+                            resultSet.getInt("destinationId"),
+                            resultSet.getString("author"),
+                            resultSet.getString("title"),
+                            resultSet.getString("text"),
+                            resultSet.getInt("visits"),
+                            resultSet.getDate("createdAt").toLocalDate()
+                    ));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

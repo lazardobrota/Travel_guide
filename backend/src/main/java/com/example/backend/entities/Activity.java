@@ -20,4 +20,9 @@ public class Activity {
     private String name;
 
     List<Article> articles;
+
+    public Activity(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

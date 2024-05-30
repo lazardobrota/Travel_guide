@@ -6,10 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backend.entities.user.User;
 import com.example.backend.entities.user.UserType;
-import com.example.backend.filters.Pass;
+import com.example.backend.filters.Global;
 import com.example.backend.repo.IUserRepository;
 import com.example.backend.repo.IUserTypeRepository;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -28,7 +27,7 @@ public class UserService {
     public String login(String email, String password) {
 
         User user = this.userRepository.getUserByEmail(email, true);
-        String hashedPassword = Pass.hashPassword(password);
+        String hashedPassword = Global.hashPassword(password);
         if (user == null || !user.getPassword().equals(hashedPassword))
             return null;
 

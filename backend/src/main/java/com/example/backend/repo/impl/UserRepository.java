@@ -1,13 +1,11 @@
 package com.example.backend.repo.impl;
 
 import com.example.backend.entities.user.User;
-import com.example.backend.filters.Pass;
+import com.example.backend.filters.Global;
 import com.example.backend.repo.IUserRepository;
 import com.example.backend.repo.MySqlRepo;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +94,7 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setInt(2, user.getUserTypeId());
             preparedStatement.setBoolean(3, user.isActive());
-            preparedStatement.setString(4, Pass.hashPassword(user.getPassword()));
+            preparedStatement.setString(4, Global.hashPassword(user.getPassword()));
             preparedStatement.setString(5, user.getName());
             preparedStatement.setString(6, user.getLastname());
             preparedStatement.executeUpdate();
@@ -192,13 +190,5 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             this.closeResultSet(resultSet);
         }
         return user;
-    }
-
-    private Date localDateToDate(LocalDate localDate) {
-        return Date.valueOf(localDate);
-    }
-
-    private LocalDate dateToLocalDate(Date date) {
-        return date.toLocalDate();
     }
 }

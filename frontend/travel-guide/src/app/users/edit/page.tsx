@@ -1,6 +1,7 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, use, useEffect, useState } from "react"
+import HeaderForStaff from "../../../components/Header/HeaderForStaff"
 
 
 export default function EditUser() {
@@ -9,7 +10,7 @@ export default function EditUser() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
-  
+
   useEffect(() => {
     fetch(`http://localhost:8081/api/user/${id}`, {
       method: 'GET',
@@ -42,33 +43,36 @@ export default function EditUser() {
         lastname: user.lastname
       })
     })
-    .then(() => router.push('/users'))
-    .catch(error => console.log(error))
+      .then(() => router.push('/users'))
+      .catch(error => console.log(error))
   }
 
   if (user === undefined)
     return;
 
   return (
-    <form onSubmit={e => handleSubmit(e, user)}>
-      <div>
-        <label>Role: {user.role}</label>
-      </div>
-      <div>
-        <label>Name: </label>
-        <input name="name" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} />
+    <>
+      <HeaderForStaff />
+      <form onSubmit={e => handleSubmit(e, user)}>
+        <div>
+          <label>Role: {user.role}</label>
+        </div>
+        <div>
+          <label>Name: </label>
+          <input name="name" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} />
 
-        <label>Lastname: </label>
-        <input name="lastname" value={user.lastname} onChange={e => setUser({ ...user, lastname: e.target.value })} />
-      </div>
-      <div>
-        <label>Email: </label>
-        <input name="email" value={user.email} onChange={e => setUser({ ...user, email: e.target.value })} />
+          <label>Lastname: </label>
+          <input name="lastname" value={user.lastname} onChange={e => setUser({ ...user, lastname: e.target.value })} />
+        </div>
+        <div>
+          <label>Email: </label>
+          <input name="email" value={user.email} onChange={e => setUser({ ...user, email: e.target.value })} />
 
-        <label>Active: </label>
-        <input disabled={user.userTypeId === 1 ? true : false} name="type" type="checkbox" defaultChecked={user.active} onChange={e => setUser({ ...user, active: !user.active })} />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+          <label>Active: </label>
+          <input disabled={user.userTypeId === 1 ? true : false} name="type" type="checkbox" defaultChecked={user.active} onChange={e => setUser({ ...user, active: !user.active })} />
+        </div>
+          <button type="submit">Submit</button>
+      </form>
+    </>
   )
 }

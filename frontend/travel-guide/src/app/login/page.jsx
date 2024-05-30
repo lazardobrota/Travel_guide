@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import HeaderForStaff from "../../components/Header/HeaderForStaff"
 
 function UserLogin() {
   this.email = ""
@@ -25,32 +26,35 @@ export default function Login() {
         password: userLogin.password
       })
     })
-    .then(res => {
-      if (res.ok)
-        return res.json()
-      throw Error('Invalid data')
-    })
-    .then(data => {
-      localStorage.setItem('jwt', data.jwt)
-      localStorage.setItem('role', data.role)
-      localStorage.setItem('name', data.name)
-      router.push('/users')
-    })
-    .catch(err => console.log(err))
+      .then(res => {
+        if (res.ok)
+          return res.json()
+        throw Error('Invalid data')
+      })
+      .then(data => {
+        localStorage.setItem('jwt', data.jwt)
+        localStorage.setItem('role', data.role)
+        localStorage.setItem('name', data.name)
+        router.push('/destinations')
+      })
+      .catch(err => console.log(err))
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, userLogin)}>
-      <div>
-        <label>Email: </label>
-        <input name="email" value={userLogin.email} onChange={(e) => setUserLogin({...userLogin, email: e.target.value})}/>
-      </div>
-      <div>
-        <label>Password: </label>
-        <input name="password" value={userLogin.password} onChange={(e) => setUserLogin({...userLogin, password: e.target.value})}/>
-      </div>
+    <>
+      <HeaderForStaff/>
+      <form onSubmit={(e) => handleSubmit(e, userLogin)}>
+        <div>
+          <label>Email: </label>
+          <input name="email" value={userLogin.email} onChange={(e) => setUserLogin({ ...userLogin, email: e.target.value })} />
+        </div>
+        <div>
+          <label>Password: </label>
+          <input name="password" value={userLogin.password} onChange={(e) => setUserLogin({ ...userLogin, password: e.target.value })} />
+        </div>
 
-      <button type="submit">Login</button>
-    </form>
+        <button type="submit">Login</button>
+      </form>
+    </>
   )
 }

@@ -3,16 +3,13 @@ import useTable from "../../../hooks/useTable";
 import TableFooter from "../TableFooter/TableFooter";
 import "./table.css"
 import { error } from "console";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 
 
 export default function TableUser({ data, setUsers, rowsPerPage }) {
   const [page, setPage] = useState(1)
   const { slice, range } = useTable(data, page, rowsPerPage)
   const router = useRouter()
-  const searchParams = useSearchParams()
-
-  const jwtCookie = "TODO"
 
   // function switchActive(elem: any): void {
   //   fetch("http://localhost:8081/api/user", {

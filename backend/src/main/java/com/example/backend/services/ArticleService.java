@@ -1,6 +1,7 @@
 package com.example.backend.services;
 
 import com.example.backend.entities.Article;
+import com.example.backend.repo.IActivityArticleRepo;
 import com.example.backend.repo.IArticleRepository;
 
 import javax.inject.Inject;
@@ -11,14 +12,27 @@ public class ArticleService {
     @Inject
     private IArticleRepository articleRepository;
 
+    @Inject
+    private IActivityArticleRepo activityArticleRepo;
+
+
     public List<Article> getAllArticles() {
         return articleRepository.getAllArticles();
     }
     public Article getArticleById(int id) {
-        return articleRepository.getArticleById(id);
+
+        Article article = articleRepository.getArticleById(id);
+        article.setActivities(activityArticleRepo.getAllActivitiesForArticleId(id));
+
+        return article;
     }
     public Article addArticle(Article article) {
-        return articleRepository.addArticle(article);
+        article = articleRepository.addArticle(article);
+
+        if (article.getActivityIds() != null)
+            activityArticleRepo.addAllConnections(article.getId(), article.getActivityIds());
+
+        return article;
     }
     public void deleteArticle(int id) {
         articleRepository.deleteArticle(id);

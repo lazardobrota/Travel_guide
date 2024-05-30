@@ -40,6 +40,8 @@ public class Article {
 
     private List<Activity> activities;
 
+    private List<Integer> activityIds;
+
     public Article(int id, int destinationId, String author, String title, String text, int visits, LocalDate createdAt) {
         this.id = id;
         this.destinationId = destinationId;

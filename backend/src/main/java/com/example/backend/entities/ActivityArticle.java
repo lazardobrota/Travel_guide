@@ -18,4 +18,10 @@ public class ActivityArticle {
 
     @NotNull(message = "ActivityId field can't be null")
     private int activityId;
+
+    public ActivityArticle(int id, int articleId, int activityId) {
+        this.id = id;
+        this.articleId = articleId;
+        this.activityId = activityId;
+    }
 }

@@ -24,4 +24,17 @@ public class Destination {
     private String description;
 
     private List<Article> articles;
+
+    public Destination(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Destination(int id, String name, String description, List<Article> articles) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.articles = articles;
+    }
 }

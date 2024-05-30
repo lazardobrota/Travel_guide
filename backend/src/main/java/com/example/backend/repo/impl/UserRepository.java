@@ -59,7 +59,6 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
 
-            //TODO this should also return list of all comments of this person
             if (resultSet.next()) {
                 user = new User(
                         resultSet.getInt("id"),
@@ -174,7 +173,6 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
-            //TODO this should also return list of all comments of this person
             if (resultSet.next()) {
                 user = new User(
                         resultSet.getInt("id"),

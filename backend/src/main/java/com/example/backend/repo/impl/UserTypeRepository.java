@@ -1,6 +1,5 @@
 package com.example.backend.repo.impl;
 
-import com.example.backend.entities.user.User;
 import com.example.backend.entities.user.UserType;
 import com.example.backend.repo.IUserTypeRepository;
 import com.example.backend.repo.MySqlRepo;

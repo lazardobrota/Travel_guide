@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.entities.user.UserType;
 import com.example.backend.entities.user.User;
+import com.example.backend.entities.user.UserType;
 import com.example.backend.services.UserService;
 
 import javax.inject.Inject;

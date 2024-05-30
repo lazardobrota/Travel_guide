@@ -31,13 +31,22 @@ public class Article {
     @NotEmpty(message = "Text field can't be empty")
     private String text;
 
-    @NotNull(message = "Text field can't be null")
+    @NotNull(message = "Visits field can't be null")
     private int visits;
 
-    @NotNull(message = "Text field can't be null")
     private LocalDate createdAt;
 
     private List<Comment> comments;
 
     private List<Activity> activities;
+
+    public Article(int id, int destinationId, String author, String title, String text, int visits, LocalDate createdAt) {
+        this.id = id;
+        this.destinationId = destinationId;
+        this.author = author;
+        this.title = title;
+        this.text = text;
+        this.visits = visits;
+        this.createdAt = createdAt;
+    }
 }

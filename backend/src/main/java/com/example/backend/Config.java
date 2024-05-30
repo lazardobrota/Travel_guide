@@ -1,11 +1,14 @@
 package com.example.backend;
 
+import com.example.backend.repo.IArticleRepository;
 import com.example.backend.repo.IDestinationRepository;
 import com.example.backend.repo.IUserRepository;
 import com.example.backend.repo.IUserTypeRepository;
+import com.example.backend.repo.impl.ArticleRepository;
 import com.example.backend.repo.impl.DestinationRepository;
 import com.example.backend.repo.impl.UserRepository;
 import com.example.backend.repo.impl.UserTypeRepository;
+import com.example.backend.services.ArticleService;
 import com.example.backend.services.DestinationService;
 import com.example.backend.services.UserService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -27,9 +30,11 @@ public class Config extends ResourceConfig {
                 this.bind(UserRepository.class).to(IUserRepository.class).in(Singleton.class);
                 this.bind(UserTypeRepository.class).to(IUserTypeRepository.class).in(Singleton.class);
                 this.bind(DestinationRepository.class).to(IDestinationRepository.class).in(Singleton.class);
+                this.bind(ArticleRepository.class).to(IArticleRepository.class).in(Singleton.class);
 
                 this.bindAsContract(UserService.class);
                 this.bindAsContract(DestinationService.class);
+                this.bindAsContract(ArticleService.class);
             }
         };
         register(binder);

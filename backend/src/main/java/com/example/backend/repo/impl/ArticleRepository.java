@@ -1,20 +1,19 @@
 package com.example.backend.repo.impl;
 
 import com.example.backend.entities.Article;
-import com.example.backend.entities.Destination;
-import com.example.backend.repo.IDestinationRepository;
+import com.example.backend.filters.Global;
+import com.example.backend.repo.IArticleRepository;
 import com.example.backend.repo.MySqlRepo;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DestinationRepository extends MySqlRepo implements IDestinationRepository {
-
-
+public class ArticleRepository extends MySqlRepo implements IArticleRepository {
     @Override
-    public List<Destination> getAllDestinations() {
-        List<Destination> destinations = new ArrayList<>();
+    public List<Article> getAllArticles() {
+        List<Article> articles = new ArrayList<>();
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -22,13 +21,17 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
         try {
             connection = this.newConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from destination");
+            resultSet = statement.executeQuery("select * from article");
 
             while (resultSet.next()) {
-                destinations.add(new Destination(
+                articles.add(new Article(
                         resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description")
+                        resultSet.getInt("destinationId"),
+                        resultSet.getString("author"),
+                        resultSet.getString("title"),
+                        resultSet.getString("text"),
+                        resultSet.getInt("visits"),
+                        resultSet.getDate("createdAt").toLocalDate()
                 ));
             }
         } catch (SQLException e) {
@@ -38,44 +41,33 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             this.closeStatement(statement);
             this.closeResultSet(resultSet);
         }
-        return destinations;
+        return articles;
     }
 
     @Override
-    public Destination getDestinationById(int id) {
-        Destination destination = null;
+    public Article getArticleById(int id) {
+        Article article = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("select * from destination where id = ?");
+            preparedStatement = connection.prepareStatement("select * from article where id = ?");
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
+            //TODO both list need to be added
             if (resultSet.next()) {
-                destination = new Destination(
+                article = new Article(
                         resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        new ArrayList<>()
+                        resultSet.getInt("destinationId"),
+                        resultSet.getString("author"),
+                        resultSet.getString("title"),
+                        resultSet.getString("text"),
+                        resultSet.getInt("visits"),
+                        resultSet.getDate("createdAt").toLocalDate()
                 );
-
-                preparedStatement = connection.prepareStatement("select * from article where destinationId = ?");
-                preparedStatement.setInt(1, id);
-                resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    destination.getArticles().add(new Article(
-                            resultSet.getInt("id"),
-                            resultSet.getInt("destinationId"),
-                            resultSet.getString("author"),
-                            resultSet.getString("title"),
-                            resultSet.getString("text"),
-                            resultSet.getInt("visits"),
-                            resultSet.getDate("createdAt").toLocalDate()
-                    ));
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,11 +76,11 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
         }
-        return destination;
+        return article;
     }
 
     @Override
-    public Destination addDestination(Destination destination) {
+    public Article addArticle(Article article) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -96,14 +88,18 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
         try{
             connection = this.newConnection();
             String[] generatedColumns = {"id"};
-            preparedStatement = connection.prepareStatement("INSERT INTO destination (name, description) VALUES (?, ?)", generatedColumns);
-            preparedStatement.setString(1, destination.getName());
-            preparedStatement.setString(2, destination.getDescription());
+            preparedStatement = connection.prepareStatement("INSERT INTO article (destinationId, author, title, text, visits, createdAt) VALUES (?, ?, ?, ?, ?, ?)", generatedColumns);
+            preparedStatement.setInt(1, article.getDestinationId());
+            preparedStatement.setString(2, article.getAuthor());
+            preparedStatement.setString(3, article.getTitle());
+            preparedStatement.setString(4, article.getText());
+            preparedStatement.setInt(5, article.getVisits());
+            preparedStatement.setDate(6, Global.localDateToDate(LocalDate.now()));
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
 
             if (resultSet.next()) {
-                destination.setId(resultSet.getInt(1));
+                article.setId(resultSet.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,17 +109,17 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             this.closeResultSet(resultSet);
         }
 
-        return destination;
+        return article;
     }
 
     @Override
-    public void deleteDestination(int id) {
+    public void deleteArticle(int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try{
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("DELETE FROM destination WHERE id = ?");
+            preparedStatement = connection.prepareStatement("DELETE FROM article WHERE id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -135,17 +131,20 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
     }
 
     @Override
-    public Destination updateDestination(Destination destination) {
+    public Article updateArticle(Article article) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try{
             connection = this.newConnection();
-            preparedStatement = connection.prepareStatement("update destination " +
-                    "set name = ?, description = ? where id = ?");
-            preparedStatement.setString(1, destination.getName());
-            preparedStatement.setString(2, destination.getDescription());
-            preparedStatement.setInt(3, destination.getId());
+            preparedStatement = connection.prepareStatement("update article " +
+                    "set destinationId = ?, author = ?, title = ?, author = ?, text = ? where id = ?");
+            preparedStatement.setInt(1, article.getDestinationId());
+            preparedStatement.setString(2, article.getAuthor());
+            preparedStatement.setString(3, article.getTitle());
+            preparedStatement.setString(4, article.getAuthor());
+            preparedStatement.setString(5, article.getText());
+            preparedStatement.setInt(6, article.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,6 +153,6 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             this.closeStatement(preparedStatement);
         }
 
-        return destination;
+        return article;
     }
 }

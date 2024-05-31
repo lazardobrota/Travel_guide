@@ -1,11 +1,13 @@
 package com.example.backend.repo.impl;
 
 import com.example.backend.entities.Activity;
-import com.example.backend.entities.ActivityArticle;
 import com.example.backend.repo.IActivityArticleRepo;
 import com.example.backend.repo.MySqlRepo;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

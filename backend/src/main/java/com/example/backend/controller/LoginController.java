@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.entities.user.User;
 import com.example.backend.entities.user.UserLogin;
+import com.example.backend.entities.user.ValidJwt;
 import com.example.backend.services.UserService;
 
 import javax.inject.Inject;
@@ -35,5 +36,23 @@ public class LoginController {
         response.put("role", user.getRole());
 
         return Response.ok(response).build();
+    }
+
+    @POST
+    @Path("/valid")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isJwtValid(ValidJwt validJwt) {
+
+        Map<String, Boolean> map = new HashMap<>();
+        try {
+            if (this.userService.isAuthorized(validJwt.getJwt())) {
+                map.put("valid", true);
+                return Response.ok(map).build();
+            }
+        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+        }
+        map.put("valid", false);
+        return Response.ok(map).build();
     }
 }

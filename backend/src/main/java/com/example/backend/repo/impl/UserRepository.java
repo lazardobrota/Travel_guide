@@ -104,6 +104,8 @@ public class UserRepository extends MySqlRepo implements IUserRepository {
                 user.setId(resultSet.getInt(1));
             }
         } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry"))
+                user.setEmail(null);
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);

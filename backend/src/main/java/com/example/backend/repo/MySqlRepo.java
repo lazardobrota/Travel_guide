@@ -21,7 +21,8 @@ public class MySqlRepo {
 
     protected void closeConnection(Connection connection) {
         try {
-            Optional.of(connection).get().close();
+            if (connection != null)
+                Optional.of(connection).get().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -29,7 +30,8 @@ public class MySqlRepo {
 
     protected void closeStatement(Statement statement) {
         try {
-            Optional.of(statement).get().close();
+            if (statement != null)
+                Optional.of(statement).get().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,7 +39,8 @@ public class MySqlRepo {
 
     protected void closeResultSet(ResultSet resultSet) {
         try {
-            Optional.of(resultSet).get().close();
+            if (resultSet != null)
+                Optional.of(resultSet).get().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

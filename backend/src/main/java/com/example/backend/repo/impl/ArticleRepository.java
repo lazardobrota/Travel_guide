@@ -6,7 +6,10 @@ import com.example.backend.filters.Global;
 import com.example.backend.repo.IArticleRepository;
 import com.example.backend.repo.MySqlRepo;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

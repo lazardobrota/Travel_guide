@@ -106,6 +106,8 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
                 destination.setId(resultSet.getInt(1));
             }
         } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry"))
+                destination.setName(null);
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);
@@ -148,6 +150,8 @@ public class DestinationRepository extends MySqlRepo implements IDestinationRepo
             preparedStatement.setInt(3, destination.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry"))
+                destination.setName(null);
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);

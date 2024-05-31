@@ -69,6 +69,9 @@ public class ArticleRepository extends MySqlRepo implements IArticleRepository {
                         resultSet.getDate("createdAt").toLocalDate()
                 );
             }
+
+//            preparedStatement = connection.prepareStatement("update article " +
+//                    "set visits = ? where id = ?");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -154,5 +157,23 @@ public class ArticleRepository extends MySqlRepo implements IArticleRepository {
         }
 
         return article;
+    }
+
+    @Override
+    public void addVisit(int id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = this.newConnection();
+            preparedStatement = connection.prepareStatement("update article set visits = visits + 1 where id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(preparedStatement);
+        }
     }
 }

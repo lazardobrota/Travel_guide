@@ -35,6 +35,13 @@ public class ArticleController {
         articleService.deleteArticle(id);
     }
 
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void addVisit(@PathParam("id") int id) {
+        articleService.addVisit(id);
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Article addArticle(@Valid Article article) {

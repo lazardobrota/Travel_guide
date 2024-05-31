@@ -40,4 +40,8 @@ public class ArticleService {
     public Article updateArticle(Article article) {
         return articleRepository.updateArticle(article);
     }
+
+    public void addVisit(int id) {
+        articleRepository.addVisit(id);
+    }
 }

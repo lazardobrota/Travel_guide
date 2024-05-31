@@ -11,4 +11,6 @@ public interface IArticleRepository {
     Article addArticle(Article article);
     void deleteArticle(int id);
     Article updateArticle(Article article);
+
+    void addVisit(int id);
 }

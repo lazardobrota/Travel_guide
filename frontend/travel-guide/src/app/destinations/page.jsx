@@ -31,7 +31,7 @@ export default function Destinations() {
     <>
       <HeaderForStaff/>
       <TableDestinations data={destinations} role={global.role} rowsPerPage={4}/>
-      <button onClick={() => router.push('/destinations/new')}>New Destination</button>
+      {global.role !== null && <button onClick={() => router.push('/destinations/new')}>New Destination</button>}
     </>
   )
 }

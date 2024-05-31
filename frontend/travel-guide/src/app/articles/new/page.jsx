@@ -9,6 +9,7 @@ export default function NewArticle() {
 
   const [article, setArticle] = useState(new Article())
   const [destin, setDestin] = useState(undefined)
+  const [newActivity, setNewActivity] = useState("")
   const [activities, setActivities] = useState(undefined)
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -60,7 +61,7 @@ export default function NewArticle() {
       .then((res) => {
         if (res.ok)
           router.push(`/articles?destinationId=${destinationId}`)
-    })
+      })
       .catch(err => console.log(err))
   }
 
@@ -74,6 +75,28 @@ export default function NewArticle() {
     }
 
     setArticle({ ...article, activityIds: value })
+  }
+
+  function handleNewActivity(newActivity) {
+
+    fetch(`http://localhost:8081/api/activity`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer' + window.localStorage.getItem("jwt"),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newActivity
+      })
+    }).then(res => {
+      if (res.ok) {
+        return res.json()
+      }
+    })
+      .then(data => setActivities([...activities, data]))
+      .catch(err => console.log(err))
+
+    setNewActivity("")
   }
 
   if (destin === undefined || activities === undefined)
@@ -95,13 +118,6 @@ export default function NewArticle() {
           <label>Text: </label>
           <textarea name="text" required value={article.text} onChange={e => setArticle({ ...article, text: e.target.value })} />
 
-          {/* <label>Destination: </label>
-          <select required defaultValue="" onChange={(e) => setArticle({ ...article, destinationId: parseInt(e.target.value) })}>
-            <option disabled value=""> -- select an option -- </option>
-            {destin.map((elem) => (
-              <option key={elem.id} value={elem.id}>{elem.name}</option>
-            ))}
-          </select> */}
           <label>Activities: </label>
           <select multiple onChange={(e) => handleChange(e)}>
             {activities.map((elem) => (
@@ -111,6 +127,12 @@ export default function NewArticle() {
         </div>
         <button type="submit">Submit</button>
       </form>
+        <br/>
+      <div>
+        <label>New Activity: </label>
+        <input name='new-activity' value={newActivity} onChange={e => setNewActivity(e.target.value)} />
+      </div>
+      <button onClick={e => handleNewActivity(newActivity)}>Add new Activity</button>
     </>
   )
 }

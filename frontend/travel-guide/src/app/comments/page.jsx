@@ -29,7 +29,7 @@ export default function Comments() {
     e.preventDefault()
 
     fetch(`http://localhost:8081/api/article/comment`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Authorization': 'Bearer' + window.localStorage.getItem("jwt"),
         'Content-Type': 'application/json'

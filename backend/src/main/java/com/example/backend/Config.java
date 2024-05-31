@@ -28,6 +28,7 @@ public class Config extends ResourceConfig {
                 this.bind(ArticleRepository.class).to(IArticleRepository.class).in(Singleton.class);
                 this.bind(ActivityRepository.class).to(IActivityRepository.class).in(Singleton.class);
                 this.bind(ActivityArticleRepo.class).to(IActivityArticleRepo.class).in(Singleton.class);
+                this.bind(CommentRepository.class).to(ICommentRepository.class).in(Singleton.class);
 
                 this.bindAsContract(UserService.class);
                 this.bindAsContract(DestinationService.class);

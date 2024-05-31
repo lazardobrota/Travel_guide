@@ -15,13 +15,24 @@ public class Comment {
 
     private int id;
 
+    @NotNull(message = "Author field can't be null")
+    @NotEmpty(message = "Author field can't be empty")
+    private String author;
+
     @NotNull(message = "Text field can't be null")
     @NotEmpty(message = "Text field can't be empty")
     private String text;
 
-    @NotNull(message = "CreatedAt field can't be null")
-    private LocalDate createAt; //todo add converter
+    private LocalDate createdAt;
 
     @NotNull(message = "ArticleId field can't be null")
     private int articleId;
+
+    public Comment(int id, String author, String text, LocalDate createdAt, int articleId) {
+        this.id = id;
+        this.author = author;
+        this.text = text;
+        this.createdAt = createdAt;
+        this.articleId = articleId;
+    }
 }

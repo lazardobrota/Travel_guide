@@ -1,8 +1,10 @@
 package com.example.backend.services;
 
 import com.example.backend.entities.Article;
+import com.example.backend.entities.Comment;
 import com.example.backend.repo.IActivityArticleRepo;
 import com.example.backend.repo.IArticleRepository;
+import com.example.backend.repo.ICommentRepository;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -11,10 +13,10 @@ public class ArticleService {
 
     @Inject
     private IArticleRepository articleRepository;
-
     @Inject
     private IActivityArticleRepo activityArticleRepo;
-
+    @Inject
+    private ICommentRepository commentRepository;
 
     public List<Article> getAllArticles() {
         return articleRepository.getAllArticles();
@@ -23,6 +25,7 @@ public class ArticleService {
 
         Article article = articleRepository.getArticleById(id);
         article.setActivities(activityArticleRepo.getAllActivitiesForArticleId(id));
+        article.setComments(commentRepository.getAllComments());
 
         return article;
     }
@@ -43,5 +46,9 @@ public class ArticleService {
 
     public void addVisit(int id) {
         articleRepository.addVisit(id);
+    }
+
+    public Comment addComment(Comment comment) {
+        return commentRepository.addComment(comment);
     }
 }

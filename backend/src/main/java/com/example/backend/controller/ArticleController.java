@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.entities.Article;
+import com.example.backend.entities.Comment;
 import com.example.backend.services.ArticleService;
 
 import javax.inject.Inject;
@@ -52,5 +53,12 @@ public class ArticleController {
     @Produces(MediaType.APPLICATION_JSON)
     public Article updateArticle(@Valid Article article) {
         return articleService.updateArticle(article);
+    }
+
+    @PUT
+    @Path("/comment")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Comment addComment(@Valid Comment comment) {
+        return articleService.addComment(comment);
     }
 }

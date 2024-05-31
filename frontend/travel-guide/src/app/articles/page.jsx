@@ -1,18 +1,18 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import TableArticles from "../../../components/Table/Table/TableArticles"
-import GlobalData from "../../../types/globalData"
-import HeaderForStaff from "../../../components/Header/HeaderForStaff"
+import TableArticles from "../../components/Table/Table/TableArticles"
+import GlobalData from "../../types/globalData"
+import HeaderForStaff from "../../components/Header/HeaderForStaff"
 
-export default function SeeDestination() {
+export default function Articles() {
 
   const [destin, setDestin] = useState(undefined)
   const [global, setGlobal] = useState(new GlobalData())
 
   const router = useRouter()
   const searchParams = useSearchParams()
-  const id = searchParams.get("id")
+  const destinationId = searchParams.get("destinationId")
 
   useEffect(() => {
     setGlobal({
@@ -20,7 +20,7 @@ export default function SeeDestination() {
       jwt: window.localStorage.getItem('jwt'),
       role: window.localStorage.getItem('role')
     })
-    fetch(`http://localhost:8081/api/destination/${id}`, {
+    fetch(`http://localhost:8081/api/destination/${destinationId}`, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
@@ -40,7 +40,7 @@ export default function SeeDestination() {
       <p>{destin.description}</p>
       <h3>Articles:</h3>
       <TableArticles data={destin.articles} role={global.role} rowsPerPage={4}/>
-      <button onClick={() => router.push(`/articles/new?destinationId=${id}`)}>New Article</button>
+      <button onClick={() => router.push(`/articles/new?destinationId=${destinationId}`)}>New Article</button>
     </>
   )
 }

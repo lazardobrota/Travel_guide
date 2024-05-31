@@ -1,7 +1,7 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import HeaderForStaff from "../../../../components/Header/HeaderForStaff"
+import HeaderForStaff from "../../../components/Header/HeaderForStaff"
 
 
 export default function EditDestination() {

@@ -14,9 +14,16 @@ export default function TableArticles({ data, role, rowsPerPage }) {
     router.push(`/articles/edit?id=${elem.id}`)
   }
 
-  function goTo(elem) {
+  async function goTo(elem) {
     console.log(elem)
-    //router.push(`/destinations/destination?id=${elem.id}`)
+    await fetch(`http://localhost:8081/api/article/${elem.id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
+      }
+    })
+
+    router.push(`/comments?articleId=${elem.id}`)
   }
 
   return (
@@ -27,6 +34,7 @@ export default function TableArticles({ data, role, rowsPerPage }) {
             <th>Title</th>
             <th>Author</th>
             <th>Text</th>
+            <th>Visits</th>
             <th>Created At</th>
           </tr>
         </thead>
@@ -36,6 +44,7 @@ export default function TableArticles({ data, role, rowsPerPage }) {
               <td onClick={() => goTo(elem)} >{elem.title}</td>
               <td onClick={() => goTo(elem)} >{elem.author}</td>
               <td onClick={() => goTo(elem)} >{elem.text.slice(0, 30) + "..."}</td>
+              <td onClick={() => goTo(elem)} >{elem.visits}</td>
               <td onClick={() => goTo(elem)} >{elem.createdAt[2] + "-" + elem.createdAt[1] + "-" + elem.createdAt[0]}</td>
               <td>{role !== null && <button onClick={() => changeEvent(elem)}>Edit</button>}</td>
             </tr>

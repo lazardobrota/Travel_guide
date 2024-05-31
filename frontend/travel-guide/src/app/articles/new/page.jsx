@@ -59,7 +59,7 @@ export default function NewArticle() {
     })
       .then((res) => {
         if (res.ok)
-          router.push(`/destinations/destination?id=${destinationId}`)
+          router.push(`/articles?destinationId=${destinationId}`)
     })
       .catch(err => console.log(err))
   }

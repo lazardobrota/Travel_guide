@@ -36,7 +36,7 @@ export default function EditDestination() {
         text: article.text
       })
     })
-      .then(() => router.push(`/destinations/destination?id=${article.destinationId}`))
+      .then(() => router.push(`/articles?destinationId=${article.destinationId}`))
       .catch(error => console.log(error))
   }
 
@@ -52,7 +52,7 @@ export default function EditDestination() {
         'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
       }
     })
-      .then(() => router.push(`/destinations/destination?id=${article.destinationId}`))
+      .then(() => router.push(`/articles?destinationId=${article.destinationId}`))
       .catch(error => console.log(error))
   }
 

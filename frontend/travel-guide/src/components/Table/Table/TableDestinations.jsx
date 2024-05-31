@@ -11,11 +11,11 @@ export default function TableDestinations({ data, role, rowsPerPage }) {
 
 
   function changeEvent(elem) {
-    router.push(`/destinations/destination/edit?id=${elem.id}`)
+    router.push(`/destinations/edit?id=${elem.id}`)
   }
 
   function goTo(elem) {
-    router.push(`/destinations/destination?id=${elem.id}`)
+    router.push(`/articles?destinationId=${elem.id}`)
   }
 
   return (

@@ -57,7 +57,7 @@ public class ArticleController {
         return articleService.updateArticle(article);
     }
 
-    @PUT
+    @POST
     @Path("/comment")
     @Produces(MediaType.APPLICATION_JSON)
     public Comment addComment(@Valid Comment comment) {

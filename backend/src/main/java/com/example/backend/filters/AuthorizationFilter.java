@@ -9,7 +9,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-@Provider 
+//@Provider todo uncomment
 public class AuthorizationFilter implements ContainerRequestFilter {
     @Inject
     private UserService userService;
@@ -38,6 +38,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (requestContext.getUriInfo().getPath().contains("login"))
             return false;
 
+        //todo it only check for user, it should check for everyone
         for (Object matchedResource : requestContext.getUriInfo().getMatchedResources()) {
             if (matchedResource instanceof UserController)
                 return true;

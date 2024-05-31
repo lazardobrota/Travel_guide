@@ -11,7 +11,7 @@ export default function HeaderForStaff() {
 
   useEffect(() => {
     setGlobal({
-      ...global, 
+      ...global,
       jwt: window.localStorage.getItem('jwt'),
       role: window.localStorage.getItem('role')
     })
@@ -25,14 +25,16 @@ export default function HeaderForStaff() {
   }
 
 
-  return(
+  return (
     <div className='header'>
       <div className='header-logo'>
         <h3>Travel Guide</h3>
       </div>
       <div className='header-navigation'>
+        <button className='header-navigation-item' onClick={() => router.push("/articles/recent")}>Home</button>
+        <button className='header-navigation-item' onClick={() => router.push("/articles/best")}>Best Articles</button>
+        <button className='header-navigation-item' onClick={() => router.push("/destinations")}>Destinations</button>
         {global.jwt !== null && global.role === 'ADMIN' && <button className='header-navigation-item' onClick={() => router.push("/users")}>Users</button>}
-        {global.jwt !== null && <button className='header-navigation-item' onClick={() => router.push("/destinations")}>Destinations</button>}
         {global.jwt === null && <button className='header-navigation-item' onClick={() => router.push("/login")}>Login</button>}
         {global.jwt !== null && <button className='header-navigation-item' onClick={() => handelLogout()}>Logout</button>}
       </div>

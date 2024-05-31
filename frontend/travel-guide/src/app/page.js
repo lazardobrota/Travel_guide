@@ -101,10 +101,10 @@ export default function Home() {
     //TODO Ovde ce birati da li zeli kao Zaposleni(Admin) ili kao obican korisnik
     <ul>
       <li>
-        <Link href="/">Home</Link>
+        <Link href="/">Obican Korisnik</Link>
       </li>
       <li>
-        <Link href="/users">Users</Link>
+        <Link href="/destinations">Zaposlen</Link>
       </li>
     </ul>
   )

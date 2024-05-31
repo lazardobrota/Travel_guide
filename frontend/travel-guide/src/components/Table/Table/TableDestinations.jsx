@@ -4,7 +4,7 @@ import useTable from "../../../hooks/useTable";
 import TableFooter from "../TableFooter/TableFooter";
 import "./table.css";
 
-export default function TableDestinations({ data, role, rowsPerPage }) {
+export default function TableDestinations({ data, role=null, rowsPerPage }) {
   const [page, setPage] = useState(1)
   const { slice, range } = useTable(data, page, rowsPerPage)
   const router = useRouter()
@@ -38,7 +38,6 @@ export default function TableDestinations({ data, role, rowsPerPage }) {
         </tbody>
       </table >
       <TableFooter range={range} slice={slice} setPage={setPage} page={page}></TableFooter>
-      <button onClick={() => router.push('/destinations/new')}>New Destination</button>
     </>
   )
 }

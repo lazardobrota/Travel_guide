@@ -4,7 +4,7 @@ import useTable from "../../../hooks/useTable";
 import TableFooter from "../TableFooter/TableFooter";
 import "./table.css";
 
-export default function TableArticles({ data, role, rowsPerPage }) {
+export default function TableArticles({ data, role = null, hasDestination = false, rowsPerPage }) {
   const [page, setPage] = useState(1)
   const { slice, range } = useTable(data, page, rowsPerPage)
   const router = useRouter()
@@ -36,6 +36,7 @@ export default function TableArticles({ data, role, rowsPerPage }) {
             <th>Text</th>
             <th>Visits</th>
             <th>Created At</th>
+            {hasDestination && <th>Destination</th>}
           </tr>
         </thead>
         <tbody>
@@ -46,6 +47,7 @@ export default function TableArticles({ data, role, rowsPerPage }) {
               <td onClick={() => goTo(elem)} >{elem.text.slice(0, 30) + "..."}</td>
               <td onClick={() => goTo(elem)} >{elem.visits}</td>
               <td onClick={() => goTo(elem)} >{elem.createdAt[2] + "-" + elem.createdAt[1] + "-" + elem.createdAt[0]}</td>
+              {hasDestination && <td onClick={() => goTo(elem)}>{elem.destination.name}</td>}
               <td>{role !== null && <button onClick={() => changeEvent(elem)}>Edit</button>}</td>
             </tr>
           ))}

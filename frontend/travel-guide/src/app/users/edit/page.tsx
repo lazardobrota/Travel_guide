@@ -5,7 +5,7 @@ import HeaderForStaff from "../../../components/Header/HeaderForStaff"
 
 
 export default function EditUser() {
-
+  const [error, setError] = useState("")
   const [user, setUser] = useState(undefined)
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -43,8 +43,13 @@ export default function EditUser() {
         lastname: user.lastname
       })
     })
-      .then(() => router.push('/users'))
-      .catch(error => console.log(error))
+      .then(res => res.json())
+      .then(data => {
+        if (data.email !== null)
+          return router.push("/users")
+        throw Error("Invalid data")
+      })
+      .catch(() => setError("There is already user with that email"))
   }
 
   if (user === undefined)
@@ -53,26 +58,29 @@ export default function EditUser() {
   return (
     <>
       <HeaderForStaff />
-      <form onSubmit={e => handleSubmit(e, user)}>
-        <div>
-          <label>Role: {user.role}</label>
-        </div>
-        <div>
-          <label>Name: </label>
-          <input name="name" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} />
+      <div>
+        <label className="invalid-data">{error}</label>
+        <form onSubmit={e => handleSubmit(e, user)}>
+          <div>
+            <label>Role: {user.role}</label>
+          </div>
+          <div>
+            <label>Name: </label>
+            <input name="name" value={user.name} onChange={e => setUser({ ...user, name: e.target.value })} />
 
-          <label>Lastname: </label>
-          <input name="lastname" value={user.lastname} onChange={e => setUser({ ...user, lastname: e.target.value })} />
-        </div>
-        <div>
-          <label>Email: </label>
-          <input name="email" value={user.email} onChange={e => setUser({ ...user, email: e.target.value })} />
+            <label>Lastname: </label>
+            <input name="lastname" value={user.lastname} onChange={e => setUser({ ...user, lastname: e.target.value })} />
+          </div>
+          <div>
+            <label>Email: </label>
+            <input name="email" value={user.email} onChange={e => setUser({ ...user, email: e.target.value })} />
 
-          <label>Active: </label>
-          <input disabled={user.userTypeId === 1 ? true : false} name="type" type="checkbox" defaultChecked={user.active} onChange={e => setUser({ ...user, active: !user.active })} />
-        </div>
+            <label>Active: </label>
+            <input disabled={user.userTypeId === 1 ? true : false} name="type" type="checkbox" defaultChecked={user.active} onChange={e => setUser({ ...user, active: !user.active })} />
+          </div>
           <button type="submit">Submit</button>
-      </form>
+        </form>
+      </div>
     </>
   )
 }

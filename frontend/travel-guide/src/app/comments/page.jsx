@@ -14,12 +14,10 @@ export default function Comments() {
   const id = searchParams.get("articleId")
 
   useEffect(() => {
-    setComment({ ...comment, author: window.localStorage.getItem("name") })
+    const name = window.localStorage.getItem("name")
+    setComment({ ...comment, author: name === null ? "" : name })
     fetch(`http://localhost:8081/api/article/${id}`, {
       method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
-      }
     })
       .then(res => res.json())
       .then(data => setArticle(data))
@@ -31,7 +29,6 @@ export default function Comments() {
     fetch(`http://localhost:8081/api/article/comment`, {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer' + window.localStorage.getItem("jwt"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -47,8 +44,9 @@ export default function Comments() {
       .then(data => setArticle({ ...article, comments: [...article.comments, data] }))
       .catch(err => console.log(err))
 
+    const name = window.localStorage.getItem("name")
     setComment({
-      author: window.localStorage.getItem("name"),
+      author: name === null ? "" : name,
       text: ""
     })
   }

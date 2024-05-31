@@ -15,21 +15,16 @@ export default function NewArticle() {
   const searchParams = useSearchParams()
   const destinationId = searchParams.get("destinationId")
 
+
   useEffect(() => {
     fetch(`http://localhost:8081/api/activity`, {
       method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
-      }
     })
       .then(res => res.json())
       .then(data => setActivities(data))
 
     fetch(`http://localhost:8081/api/destination`, {
       method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
-      }
     })
       .then(res => res.json())
       .then(data => setDestin(data))
@@ -39,14 +34,11 @@ export default function NewArticle() {
   function handleSubmit(e, article) {
     e.preventDefault()
 
-    console.log(article)
-
     article.visits = 1
 
     fetch("http://localhost:8081/api/article", {
       method: "POST",
       headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -82,7 +74,6 @@ export default function NewArticle() {
     fetch(`http://localhost:8081/api/activity`, {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer' + window.localStorage.getItem("jwt"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -130,7 +121,7 @@ export default function NewArticle() {
         <br/>
       <div>
         <label>New Activity: </label>
-        <input name='new-activity' value={newActivity} onChange={e => setNewActivity(e.target.value)} />
+        <input required name='new-activity' value={newActivity} onChange={e => setNewActivity(e.target.value)} />
       </div>
       <button onClick={e => handleNewActivity(newActivity)}>Add new Activity</button>
     </>

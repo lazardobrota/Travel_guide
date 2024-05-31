@@ -10,9 +10,6 @@ export default function RecentArticles() {
   const [articles, setArticles] = useState(undefined)
   const [global, setGlobal] = useState(new GlobalData())
 
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
   useEffect(() => {
     setGlobal({
       ...global,

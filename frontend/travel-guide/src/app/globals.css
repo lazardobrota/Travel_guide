@@ -109,3 +109,7 @@ a {
 .main-content {
   margin: 8px;
 }
+
+.invalid-data {
+  color: rgb(179, 20, 20);
+}

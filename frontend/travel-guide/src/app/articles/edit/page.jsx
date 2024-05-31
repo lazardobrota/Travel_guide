@@ -9,6 +9,8 @@ export default function EditDestination() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
+
+
   useEffect(() => {
     fetch(`http://localhost:8081/api/article/${id}`, {
       method: 'GET',

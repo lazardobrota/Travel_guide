@@ -11,6 +11,7 @@ function UserLogin() {
 export default function Login() {
 
   const [userLogin, setUserLogin] = useState(new UserLogin())
+  const [error, setError] = useState("")
   const router = useRouter()
 
   function handleSubmit(e, userLogin) {
@@ -37,20 +38,22 @@ export default function Login() {
         localStorage.setItem('name', data.name)
         router.push('/destinations')
       })
-      .catch(err => console.log(err))
+      .catch(err => setError("Invalid username or password"))
   }
 
   return (
     <>
       <HeaderForStaff/>
       <form onSubmit={(e) => handleSubmit(e, userLogin)}>
+
+      <label className="invalid-data">{error}</label>
         <div>
           <label>Email: </label>
-          <input name="email" value={userLogin.email} onChange={(e) => setUserLogin({ ...userLogin, email: e.target.value })} />
+          <input required name="email" value={userLogin.email} onChange={(e) => setUserLogin({ ...userLogin, email: e.target.value })} />
         </div>
         <div>
           <label>Password: </label>
-          <input name="password" value={userLogin.password} onChange={(e) => setUserLogin({ ...userLogin, password: e.target.value })} />
+          <input required type="password" name="password" value={userLogin.password} onChange={(e) => setUserLogin({ ...userLogin, password: e.target.value })} />
         </div>
 
         <button type="submit">Login</button>

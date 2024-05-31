@@ -13,16 +13,17 @@ import java.util.List;
 
 public class CommentRepository extends MySqlRepo implements ICommentRepository {
     @Override
-    public List<Comment> getAllComments() {
+    public List<Comment> getAllCommentsForArticleById(int articleId) {
         List<Comment> comments = new ArrayList<>();
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        try {
+        try{
             connection = this.newConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from comment");
+            preparedStatement = connection.prepareStatement("select * from comment where articleId = ?");
+            preparedStatement.setInt(1, articleId);
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 comments.add(new Comment(
@@ -37,9 +38,10 @@ public class CommentRepository extends MySqlRepo implements ICommentRepository {
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);
-            this.closeStatement(statement);
+            this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
         }
+
         return comments;
     }
 

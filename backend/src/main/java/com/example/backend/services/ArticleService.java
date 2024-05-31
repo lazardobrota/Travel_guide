@@ -25,7 +25,7 @@ public class ArticleService {
 
         Article article = articleRepository.getArticleById(id);
         article.setActivities(activityArticleRepo.getAllActivitiesForArticleId(id));
-        article.setComments(commentRepository.getAllComments());
+        article.setComments(commentRepository.getAllCommentsForArticleById(id));
 
         return article;
     }

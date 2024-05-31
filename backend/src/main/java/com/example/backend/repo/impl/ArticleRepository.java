@@ -1,6 +1,7 @@
 package com.example.backend.repo.impl;
 
 import com.example.backend.entities.Article;
+import com.example.backend.entities.Destination;
 import com.example.backend.filters.Global;
 import com.example.backend.repo.IArticleRepository;
 import com.example.backend.repo.MySqlRepo;
@@ -12,16 +13,27 @@ import java.util.List;
 
 public class ArticleRepository extends MySqlRepo implements IArticleRepository {
     @Override
-    public List<Article> getAllArticles() {
+    public List<Article> getAllArticles(String numOfElemToReturn, String mostRead) {
         List<Article> articles = new ArrayList<>();
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from article order by createdAt ASC ");
+
+            if (numOfElemToReturn != null) {
+                preparedStatement = connection.prepareStatement("select * from article join destination on destinationId = destination.id  order by createdAt DESC limit ?");
+                preparedStatement.setInt(1, Integer.parseInt(numOfElemToReturn));
+            }
+            else if (mostRead != null) {
+                preparedStatement = connection.prepareStatement("select * from article join destination on destinationId = destination.id where createdAt > (now() - interval 1 month) order by visits DESC limit ?");
+                preparedStatement.setInt(1, Integer.parseInt(mostRead));
+            }
+            else {
+                preparedStatement = connection.prepareStatement("select * from article join destination on destinationId = destination.id  order by createdAt ASC ");
+            }
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 articles.add(new Article(
@@ -31,14 +43,19 @@ public class ArticleRepository extends MySqlRepo implements IArticleRepository {
                         resultSet.getString("title"),
                         resultSet.getString("text"),
                         resultSet.getInt("visits"),
-                        resultSet.getDate("createdAt").toLocalDate()
+                        resultSet.getDate("createdAt").toLocalDate(),
+                        new Destination(
+                                resultSet.getInt("destination.id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("description")
+                        )
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             this.closeConnection(connection);
-            this.closeStatement(statement);
+            this.closeStatement(preparedStatement);
             this.closeResultSet(resultSet);
         }
         return articles;

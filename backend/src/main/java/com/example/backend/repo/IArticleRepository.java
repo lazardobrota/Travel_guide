@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IArticleRepository {
 
-    List<Article> getAllArticles();
+    List<Article> getAllArticles(String numOfElemToReturn, String mostRead);
     Article getArticleById(int id);
     Article addArticle(Article article);
     void deleteArticle(int id);

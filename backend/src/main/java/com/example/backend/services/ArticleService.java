@@ -7,6 +7,7 @@ import com.example.backend.repo.IArticleRepository;
 import com.example.backend.repo.ICommentRepository;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 public class ArticleService {
@@ -18,8 +19,10 @@ public class ArticleService {
     @Inject
     private ICommentRepository commentRepository;
 
-    public List<Article> getAllArticles() {
-        return articleRepository.getAllArticles();
+    public List<Article> getAllArticles(UriInfo uriInfo) {
+        String numOfElemToReturn = uriInfo.getQueryParameters().getFirst("top");
+        String mostRead = uriInfo.getQueryParameters().getFirst("mostRead");
+        return articleRepository.getAllArticles(numOfElemToReturn, mostRead);
     }
     public Article getArticleById(int id) {
 

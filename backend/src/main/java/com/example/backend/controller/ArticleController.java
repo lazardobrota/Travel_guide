@@ -7,8 +7,10 @@ import com.example.backend.services.ArticleService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/article")
 public class ArticleController {
@@ -18,8 +20,8 @@ public class ArticleController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllArticles() {
-        return Response.ok(articleService.getAllArticles()).build();
+    public Response getAllArticles(@Context UriInfo uriInfo) {
+        return Response.ok(articleService.getAllArticles(uriInfo)).build();
     }
 
     @GET

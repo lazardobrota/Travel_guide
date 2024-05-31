@@ -42,6 +42,8 @@ public class Article {
 
     private List<Integer> activityIds;
 
+    private Destination destination;
+
     public Article(int id, int destinationId, String author, String title, String text, int visits, LocalDate createdAt) {
         this.id = id;
         this.destinationId = destinationId;
@@ -50,5 +52,16 @@ public class Article {
         this.text = text;
         this.visits = visits;
         this.createdAt = createdAt;
+    }
+
+    public Article(int id, int destinationId, String author, String title, String text, int visits, LocalDate createdAt, Destination destination) {
+        this.id = id;
+        this.destinationId = destinationId;
+        this.author = author;
+        this.title = title;
+        this.text = text;
+        this.visits = visits;
+        this.createdAt = createdAt;
+        this.destination = destination;
     }
 }

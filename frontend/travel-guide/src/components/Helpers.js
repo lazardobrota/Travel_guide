@@ -14,8 +14,12 @@ export function loginCheck() {
       })
     }).then(res => res.json())
     .then(data => {
-      if (!data.valid)
+      if (!data.valid) {
+        window.localStorage.removeItem('jwt')
+        window.localStorage.removeItem('role')
+        window.localStorage.removeItem('name')
         router.push("/login")
+      }
     })
     .catch(() => router.push("/login"))
   }, [])

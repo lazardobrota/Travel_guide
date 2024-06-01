@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import HeaderForStaff from "../../../components/Header/HeaderForStaff"
 import User from "../../../types/user"
+import { loginCheck } from "../../../components/Helpers"
 
 export default function NewUser() {
   const [error, setError] = useState("")
@@ -10,6 +11,7 @@ export default function NewUser() {
   const [userTypes, setUserTypes] = useState(undefined)
   const router = useRouter()
 
+  loginCheck();
 
   useEffect(() => {
 

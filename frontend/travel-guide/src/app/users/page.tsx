@@ -4,11 +4,14 @@ import TableUser from "../../components/Table/Table/TableUser";
 import HeaderForStaff from "../../components/Header/HeaderForStaff";
 import { useRouter } from "next/navigation";
 import GlobalData from '../../types/globalData.js';
+import { loginCheck } from "../../components/Helpers"
 
 export default function Users() {
   const [users, setUsers] = useState([])
   const [global, setGlobal] = useState(new GlobalData())
   const router = useRouter()
+
+  loginCheck();
 
   useEffect(() => {
     setGlobal({ ...global, jwt: window.localStorage.getItem('jwt') })
@@ -25,9 +28,6 @@ export default function Users() {
 
   if (users.length === 0)
     return;
-
-  if (global.jwt === null)
-    router.push('/login')
 
   return (
     <>

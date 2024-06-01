@@ -2,6 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { FormEvent, use, useEffect, useState } from "react"
 import HeaderForStaff from "../../../components/Header/HeaderForStaff"
+import { loginCheck } from "../../../components/Helpers"
 
 
 export default function EditUser() {
@@ -10,6 +11,8 @@ export default function EditUser() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
+
+  loginCheck();
 
   useEffect(() => {
     fetch(`http://localhost:8081/api/user/${id}`, {

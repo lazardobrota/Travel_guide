@@ -55,8 +55,11 @@ public class AuthorizationFilter implements ContainerRequestFilter {
             return true;
         if (matchedResource instanceof DestinationController && !requestContext.getMethod().equals("GET"))
             return true;
-        if (matchedResource instanceof ArticleController && !requestContext.getMethod().equals("GET"))
-            return true;
+        if (matchedResource instanceof ArticleController && !requestContext.getMethod().equals("GET")) {
+            if (requestContext.getUriInfo().getPath().matches("article/(\\d)+"))
+                return false;
+            return !requestContext.getUriInfo().getPath().equals("article/comment");
+        }
         if (matchedResource instanceof ActivityController && !requestContext.getMethod().equals("GET"))
             return true;
 

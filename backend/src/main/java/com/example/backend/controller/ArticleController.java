@@ -4,6 +4,7 @@ import com.example.backend.entities.Article;
 import com.example.backend.entities.Comment;
 import com.example.backend.services.ArticleService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;

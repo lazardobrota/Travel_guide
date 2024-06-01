@@ -1,12 +1,11 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useTable from "../../../hooks/useTable";
 import TableFooter from "../TableFooter/TableFooter";
-import "./table.css"
-import { error } from "console";
-import { useRouter} from "next/navigation";
+import "./table.css";
 
 
-export default function TableUser({ data, setUsers, rowsPerPage }) {
+export default function TableUser({ data, rowsPerPage }) {
   const [page, setPage] = useState(1)
   const { slice, range } = useTable(data, page, rowsPerPage)
   const router = useRouter()

@@ -21,10 +21,7 @@ export default function Articles() {
       role: window.localStorage.getItem('role')
     })
     fetch(`http://localhost:8081/api/destination/${destinationId}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
-      }
+      method: 'GET'
     })
       .then(res => res.json())
       .then(data => setDestin(data))

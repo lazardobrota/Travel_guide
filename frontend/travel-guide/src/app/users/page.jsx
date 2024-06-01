@@ -1,10 +1,10 @@
 "use client"
 import { useEffect, useState } from "react"
-import TableUser from "../../components/Table/Table/TableUser";
-import HeaderForStaff from "../../components/Header/HeaderForStaff";
+import TableUser from "../../components/Table/Table/TableUser.jsx";
+import HeaderForStaff from "../../components/Header/HeaderForStaff.jsx";
 import { useRouter } from "next/navigation";
 import GlobalData from '../../types/globalData.js';
-import { loginCheck } from "../../components/Helpers"
+import { loginCheck } from "../../components/Helpers.js"
 
 export default function Users() {
   const [users, setUsers] = useState([])
@@ -32,7 +32,7 @@ export default function Users() {
   return (
     <>
       <HeaderForStaff/>
-      <TableUser data={users} setUsers={setUsers} rowsPerPage={4} />
+      <TableUser data={users} rowsPerPage={4} />
     </>
   )
 }

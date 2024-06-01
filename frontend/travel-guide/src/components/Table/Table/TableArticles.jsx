@@ -16,11 +16,9 @@ export default function TableArticles({ data, role = null, hasDestination = fals
 
   async function goTo(elem) {
     console.log(elem)
+    //add visit
     await fetch(`http://localhost:8081/api/article/${elem.id}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
-      }
+      method: 'PUT'
     })
 
     router.push(`/comments?articleId=${elem.id}`)

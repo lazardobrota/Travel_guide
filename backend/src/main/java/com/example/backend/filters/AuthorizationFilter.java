@@ -1,6 +1,10 @@
 package com.example.backend.filters;
 
+import com.example.backend.controller.ActivityController;
+import com.example.backend.controller.ArticleController;
+import com.example.backend.controller.DestinationController;
 import com.example.backend.controller.UserController;
+import com.example.backend.entities.Destination;
 import com.example.backend.services.UserService;
 
 import javax.inject.Inject;
@@ -9,7 +13,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-//@Provider
+@Provider
 public class AuthorizationFilter implements ContainerRequestFilter {
     @Inject
     private UserService userService;
@@ -27,7 +31,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
             token = token.replace("Bearer ", "");
 
         try {
-            if (!this.userService.isAuthorized(token))
+            if (!this.userService.isAuthorized(token, requestContext.getUriInfo().getPath(), requestContext.getMethod()))
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         } catch (Exception e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
@@ -38,11 +42,23 @@ public class AuthorizationFilter implements ContainerRequestFilter {
         if (requestContext.getUriInfo().getPath().contains("login"))
             return false;
 
-        //todo it only check for user, it should check for everyone
         for (Object matchedResource : requestContext.getUriInfo().getMatchedResources()) {
-            if (matchedResource instanceof UserController)
+            if (checkInstance(matchedResource, requestContext))
                 return true;
         }
+
+        return false;
+    }
+
+    private boolean checkInstance(Object matchedResource, ContainerRequestContext requestContext) {
+        if (matchedResource instanceof UserController)
+            return true;
+        if (matchedResource instanceof DestinationController && !requestContext.getMethod().equals("GET"))
+            return true;
+        if (matchedResource instanceof ArticleController && !requestContext.getMethod().equals("GET"))
+            return true;
+        if (matchedResource instanceof ActivityController && !requestContext.getMethod().equals("GET"))
+            return true;
 
         return false;
     }

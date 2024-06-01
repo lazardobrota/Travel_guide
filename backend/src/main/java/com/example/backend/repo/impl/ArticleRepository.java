@@ -77,7 +77,6 @@ public class ArticleRepository extends MySqlRepo implements IArticleRepository {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
 
-            //TODO both list need to be added
             if (resultSet.next()) {
                 article = new Article(
                         resultSet.getInt("id"),

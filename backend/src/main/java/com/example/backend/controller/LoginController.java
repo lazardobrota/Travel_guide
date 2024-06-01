@@ -45,7 +45,7 @@ public class LoginController {
 
         Map<String, Boolean> map = new HashMap<>();
         try {
-            if (this.userService.isAuthorized(validJwt.getJwt())) {
+            if (this.userService.isAuthorized(validJwt.getJwt(), "login/valid", "POST")) {
                 map.put("valid", true);
                 return Response.ok(map).build();
             }

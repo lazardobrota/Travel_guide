@@ -39,16 +39,26 @@ public class UserService {
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
                 .withSubject(email)
+                .withClaim("role", user.getRole())
                 .sign(algorithm);
     }
 
-    public boolean isAuthorized(String token) throws Exception{
+    public boolean isAuthorized(String token, String path, String method) throws Exception{
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token); //throws exception
 
         String email = decodedJWT.getSubject();
+        String role = String.valueOf(decodedJWT.getClaim("role"));
+        role = role.substring(1, role.length() - 1); // "ADMIN", remove "
 
-        return this.userRepository.getUserByEmail(email, false) != null;
+        return this.userRepository.getUserByEmail(email, false) != null && validRole(path, role, method);
+    }
+
+    private boolean validRole(String path, String role, String method) {
+        if (path.startsWith("user"))
+            return role.equals("ADMIN");
+
+        return true;
     }
 
     public User getUserByEmail(String email) {
